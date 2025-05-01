@@ -10,27 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_28_063123) do
-  create_schema "auth"
-  create_schema "extensions"
-  create_schema "graphql"
-  create_schema "graphql_public"
-  create_schema "pgbouncer"
-  create_schema "pgsodium"
-  create_schema "pgsodium_masks"
-  create_schema "realtime"
-  create_schema "storage"
-  create_schema "vault"
-
+ActiveRecord::Schema[8.0].define(version: 2025_05_01_084939) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "extensions.pg_stat_statements"
-  enable_extension "extensions.pgcrypto"
-  enable_extension "extensions.pgjwt"
-  enable_extension "extensions.uuid-ossp"
-  enable_extension "graphql.pg_graphql"
   enable_extension "pg_catalog.plpgsql"
-  enable_extension "pgsodium.pgsodium"
-  enable_extension "vault.supabase_vault"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -82,6 +64,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_063123) do
     t.datetime "updated_at", null: false
     t.boolean "public"
     t.integer "user_id"
+    t.text "suggestion"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -92,6 +75,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_063123) do
     t.datetime "updated_at", null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+  end
+
+  create_table "solid_queue_jobs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
