@@ -17,4 +17,5 @@ html {
 }
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
+    
 }  
