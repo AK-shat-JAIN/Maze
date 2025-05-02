@@ -47,15 +47,25 @@
 
     <div class="flex flex-col gap-2">
 
-      <nav class="w-full flex justify-center sticky top-0 z-40 bg-white shadow-xl items-center md:py-1 pr-3 md:px-3">
+      <nav class="w-full flex justify-center sticky top-0 z-40 bg-white dark:bg-black shadow-xl items-center md:py-1 pr-3 md:px-3">
 
-        <button onclick="openDrawer()" class="p-2 text-white rounded-md cursor-pointer">
+        <button onclick="openDrawer()" class="p-2 text-white dark:bg-black rounded-md cursor-pointer">
           <img src="<%= asset_path('menu.svg') %>" class="w-10 md:w-10">
         </button>
 
-        <div id="drawer" class="flex flex-col text-right fixed top-0 left-0 h-full w-64 md:w-72 bg-white shadow-2xl transform -translate-x-full transition-transform z-50">
-          <div class="flex justify-end"> 
-            <button onclick="closeDrawer()" class="w-1/4 py-2 px-4 cursor-pointer text-5xl">
+        <div id="drawer" class="flex flex-col text-right fixed top-0 left-0 h-full w-64 md:w-72 backdrop-blur-md bg-white/40 dark:bg-black/40 shadow-2xl transform -translate-x-full transition-transform z-50">
+          <div class="flex justify-between items-center py-2"> 
+            
+            <div class="w-1/4 px-4 pt-2">
+              <input type="checkbox" class="checkbox" id="checkbox">
+              <label for="checkbox" class="checkbox-label">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+                <span class="ball"></span>
+              </label>
+            </div>
+            
+            <button onclick="closeDrawer()" class="w-1/4 px-4 cursor-pointer text-5xl">
               &times;
             </button>
           </div>
@@ -146,6 +156,25 @@
         if (!drawer.contains(event.target) && !event.target.closest("button")) {
           closeDrawer();
         }
+      });
+
+      document.addEventListener('turbo:load', () => {
+        const checkbox = document.getElementById("checkbox");
+
+        if (localStorage.getItem("theme") === "dark") {
+          document.documentElement.classList.add("dark");
+          checkbox.checked = true;
+        }
+
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) {
+            document.documentElement.classList.add('dark'); // Add 'dark' to <html>
+            localStorage.setItem('theme', 'dark'); // Save user preference
+          } else {
+            document.documentElement.classList.remove('dark'); // Remove 'dark' from <html>
+            localStorage.setItem('theme', 'light'); // Save user preference
+          }
+        });
       });
 
       function previewAvatar(event) {
